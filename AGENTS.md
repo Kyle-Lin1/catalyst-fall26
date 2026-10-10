@@ -40,3 +40,12 @@ Never mention Claude or Anthropic in commit messages.
 - `Astro.locals.supabase` is null when `.env.local` is missing. Handle that instead of crashing.
 - Every table in `public` needs RLS and explicit column grants. Change the schema with a new file in `supabase/migrations/` (`npx supabase migration new <name>`), not in the dashboard.
 - Participants are beginners. Keep `members/` and CONTRIBUTING.md simple, and keep check error messages specific about how to fix the problem.
+
+## Cursor Cloud specific instructions
+
+The Cloud Agent workspace has two repos: Catalyst at `/agent/repos/catalyst-fall26` and the STM32 firmware at `/agent/repos/BLAST_Motor_RevA`. Node 22.22 is already on `PATH`.
+
+- From the Catalyst repo, `npm ci` installs dependencies. `cp .env.example .env.local` is enough to run the site. Those keys are public, and the leaderboard reads the hosted Supabase project. Docker and `npx supabase start` are only needed for `npx supabase test db`.
+- Start the site with `astro dev --background --host` (see Development above). It listens on port 4321. `astro dev status` prints `No dev server is running` when it is stopped, and that command still exits 0.
+- `npm run check:members`, `npm test`, `npm run check`, and `npm run build` match CI.
+- Firmware, from `Gravity.Gradient.boom.pcb.firmware`: `cmake --preset Debug`, then `cmake --build --preset Debug`. `arm-none-eabi-gcc` and Ninja are already installed.
